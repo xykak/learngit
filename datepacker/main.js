@@ -4,6 +4,7 @@ window.addEventListener('load', function(){
 
     datepicker.biuldUi = function(year, month){
         monthData =  datepicker.getMonthData(year, month);
+        console.log(monthData);
         var html = `
         <div class="ui-datepicker-header">
         <a href="#" class="ui-datepicker-btn ui-datepicker-perv">&lt;</a>
@@ -25,11 +26,21 @@ window.addEventListener('load', function(){
             </thead>
             <tbody>`
 
-                for(var i = 0; i<monthData.days.length;i++) {
+                for(var i = 0; i< monthData.days.length;i++) {
                     if (i%7 === 0) {
                         html += '<tr>'
                     }
-                    html += '<td data-date='+monthData.days[i].date+'>' + monthData.days[i].showDate + '</td>' 
+
+                    if (monthData.days[i].isThisMonth) {
+                        if (monthData.days[i].showDate===monthData.day) {
+                            html += '<td data-date='+monthData.days[i].date+'  style="color:white; background:blue;border: 1px solid blue" >' + monthData.days[i].showDate + '</td>' ;
+                            continue;
+                        }
+                        html += '<td data-date='+monthData.days[i].date+'>' + monthData.days[i].showDate + '</td>';
+                    } else {
+                        html += '<td data-date='+monthData.days[i].date+'  style="color:#eae1e1" >' + monthData.days[i].showDate + '</td>'
+                    }
+
                     if (i%7 === 6) {
                         html += '</tr>'
                     }
@@ -38,7 +49,11 @@ window.addEventListener('load', function(){
             html +=`</tbody>
         </table>
     </div>`;
+
+
+
     return html
+
     }
 
     datepicker.init = function() {
@@ -47,6 +62,7 @@ window.addEventListener('load', function(){
         wrapper.className = 'ui-datepicker-wrapper';
         wrapper.innerHTML = html;
         document.body.appendChild(wrapper);
+
         //点击input显示
         var input = document.querySelector('.datepicker');
         var isOpen = false;
@@ -57,15 +73,15 @@ window.addEventListener('load', function(){
             } else {
                 wrapper.classList.add('ui-datepicker-wrapper-show')
                 isOpen = true;
-                var top = input.offsetTop;
+                var top = input.offsetTop + 10;
                 var left = input.offsetLeft;
                 var height = input.offsetHeight;
                 wrapper.style.top = top + height + 'px';
                 wrapper.style.left = left + 'px';
-                // wrapper.style.cssText += "top:"+(top+height)+"px;"+"left:"+left+"px;"+"background-color:"+"red";           
+                // wrapper.style.cssText += "top:"+(top+height)+"px;"+"left:"+left+"px;"+"background-color:"+"red";
 
             }
-            
+
         })
 
         //切换月份
@@ -94,7 +110,7 @@ window.addEventListener('load', function(){
         function showClickInput(){
             var tbody = document.querySelector('.ui-datepicker-body tbody');
             tbody.addEventListener('click', function(e){
-                // input.setAttribute('value',monthData.year+'-'+monthData.month+'-'+e.target.innerHTML)   
+                // input.setAttribute('value',monthData.year+'-'+monthData.month+'-'+e.target.innerHTML)
                 if (e.target.tagName.toLowerCase() !== 'td') {
                     return false;
                 }
@@ -118,7 +134,7 @@ window.addEventListener('load', function(){
         showClickInput()
 
     }
-    
+
     datepicker.init()
 
 })

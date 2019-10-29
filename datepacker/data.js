@@ -7,13 +7,14 @@ window.addEventListener('load',function(){
                 var today = new Date();
                 year = today.getFullYear();
                 month = today.getMonth() + 1;
+                day = today.getDate();
             }
-            
+
             var firstDay = new Date(year, month - 1, 1)
             //return
             var year = firstDay.getFullYear();
             var month = firstDay.getMonth() + 1;
-                        
+
             var firstDayWeekDay = firstDay.getDay();
             if(firstDayWeekDay === 0){
                 firstDayWeekDay = 7;
@@ -29,12 +30,15 @@ window.addEventListener('load',function(){
                 var date = i + 1 - perMonthDayCount;
                 var showDate = date;
                 var thisMonth = month;
+                var isThisMonth = true
                 if(date <= 0) {
                     thisMonth = month - 1;
                     showDate = lastDateOfLastMonth + date;
+                    isThisMonth = false;
                 } else if(date > lastDate) {
                     thisMonth = month + 1;
                     showDate = date - lastDate;
+                    isThisMonth = false;
                 }
                 if (thisMonth === 0) {
                     thisMonth = 12
@@ -45,12 +49,14 @@ window.addEventListener('load',function(){
                 ret.push({
                     month: thisMonth,
                     date: date,
-                    showDate: showDate
+                    showDate: showDate,
+                    isThisMonth: isThisMonth
                 })
             }
             return {
                 year: year,
                 month: month,
+                day: day,
                 days: ret
             }
         }
