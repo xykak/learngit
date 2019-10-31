@@ -63,3 +63,21 @@ window.addEventListener('load',function(){
         window.datepicker = datepicker
     })()
 })
+
+
+function test() {
+    var arr = [];
+    for (var i = 0; i < 10; i++) {
+        (function(j) {
+            arr[j] = function(){
+                document.write(j + " ");
+            }
+        }(i))
+    }
+    return arr;
+}
+
+var myarr = test();
+for (var i = 0; i < myarr.length; i++) {
+    myarr[i]();
+}
